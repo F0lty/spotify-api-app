@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'Gotham';
+    src: url('./assets/fonts/Gotham-Font/GothamMedium.ttf');
+  }
+  @font-face {
+    font-family: 'Gotham-bold';
+    src: url('./assets/fonts/Gotham-Font/GothamBold.ttf');
+    font-weight: bold;
+  }
+
+#root, html, body{
+    height:100%;
+    width: 100%;
+    margin:0px;
+}
+#root{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.Wrapper{
+    /* border: 3px solid rgb(202, 202, 202); */
+    
+background-color: black;
+    width: 1000px;
+    height: 600px;
+    display: flex; 
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin: 2rem;
+    box-shadow:3px 3px 3px 3px rgb(153, 153, 153);
+
+}

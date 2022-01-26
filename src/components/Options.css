@@ -1,0 +1,125 @@
+.LeftBox,.RightBox{
+    height: 100%;
+    border-radius: 1rem;
+    font-size: 16px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: 30px repeat(5,1fr);
+    transition:all 0.5 ease-in-out;
+    gap: 15px;
+    font-family: Gotham;
+}
+h1{
+    font-size: 40px;
+    margin-top:20%;
+    margin-bottom:0px;
+}
+h2{
+    font-size: 20px;
+    margin:0px;
+}
+.LeftBox{
+    color: white;
+    width: 63%;
+}
+#loading{
+    grid-column: 1/-1;
+    display: flex;
+    justify-content: center;
+}
+.RightBox{
+    width: 33%;
+    background-color: #1EC14B;
+}
+.Searchbar{
+    height: 100%;
+    transition: height 0.5s ease-in-out;
+    z-index: 1;
+    grid-column: 1/-1;
+    padding-left: 20px;
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 10px;
+    border:solid 3px black;
+}
+input{
+    border: none;
+    box-shadow: none;
+    
+}
+input:focus{
+    border: none;
+    box-shadow: none;
+    outline: none;
+    
+}
+.NameAndPic{
+    grid-column: 1/-1;
+    grid-row: 2/4;
+    display: flex;
+    justify-content: space-between;
+}
+.AlbumCover{    
+    border-radius: 10px;
+    
+    border:solid 3px black;
+}
+.greenBoxesWrapper{
+    grid-column: 1/-1;
+    grid-row: 4/5;
+    display: grid;
+    gap:15px;
+    grid-template-columns: repeat(4,1fr);
+    /* border:solid 3px black; */
+
+
+}
+.GreenBox{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10%;
+    border-radius: 10px;
+    background-color: #1EC14B;
+}
+
+.analysisValue{
+    color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-inline-start: 10px;
+    border-radius: 10px;
+    background-color: white;
+    
+    
+}
+.Searchbar:focus-within{
+    transition: height 0.5s ease-in-out;
+    height: 600px;
+    z-index: 1;
+}
+
+
+
+
+
+
+/* ----------------Transitions--------------------- */
+.my-node-enter {
+    opacity: 0;
+  }
+  .my-node-enter-active {
+    opacity: 1;
+    transition: opacity 1000ms;
+  }
+  .my-node-exit {
+    opacity: 1;
+  }
+  .my-node-exit-active {
+    opacity: 0;
+    transition: opacity 2000ms;
+  }
