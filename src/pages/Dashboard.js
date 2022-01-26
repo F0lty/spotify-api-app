@@ -28,6 +28,8 @@ const data = await res.json();
 return data;
 
 }
+console.log("testing branches");
+console.log("testing branches");
 console.log("testing git");
 useEffect(() => {
     (async()=>{
