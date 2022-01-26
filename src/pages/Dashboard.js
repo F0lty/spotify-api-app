@@ -28,7 +28,7 @@ const data = await res.json();
 return data;
 
 }
-
+console.log("testing git");
 useEffect(() => {
     (async()=>{
         const data = await getUserData();
