@@ -1,3 +1,4 @@
+import '../index.css';
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import LeftBox from '../components/LeftBox';

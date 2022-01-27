@@ -1,3 +1,5 @@
+
+
 .LeftBox,.RightBox{
     height: 100%;
     border-radius: 1rem;
@@ -7,7 +9,6 @@
     grid-template-rows: 30px repeat(5,1fr);
     transition:all 0.5 ease-in-out;
     gap: 15px;
-    font-family: Gotham;
 }
 h1{
     font-size: 40px;
@@ -58,13 +59,19 @@ input:focus{
 .NameAndPic{
     grid-column: 1/-1;
     grid-row: 2/4;
-    display: flex;
-    justify-content: space-between;
+    max-height: fit-content;
+    display: grid;
+    gap: 15px;
+    grid-auto-columns: minmax(0,1fr);
+    grid-auto-flow: column;
+    grid-auto-rows: minmax(0,1fr);
+
 }
-.AlbumCover{    
+.AlbumCover{
+    height: 100%;
+    justify-self: flex-end;
     border-radius: 10px;
-    
-    border:solid 3px black;
+
 }
 .greenBoxesWrapper{
     grid-column: 1/-1;

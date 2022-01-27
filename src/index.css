@@ -1,14 +1,21 @@
 @font-face {
     font-family: 'Gotham';
-    src: url('./assets/fonts/Gotham-Font/GothamMedium.ttf');
+    src: url('./assets/fonts/Gotham-Font/GothamMedium.ttf')format('truetype');
+    src: url('./assets/fonts/Gotham-Font/Gotham-XLight.otf');
   }
   @font-face {
+    font-family: 'Roboto';
+    src: url('./assets/fonts/Roboto/Roboto-Black.ttf')format('truetype');
+
+  }
+  /* @font-face {
     font-family: 'Gotham-bold';
     src: url('./assets/fonts/Gotham-Font/GothamBold.ttf');
     font-weight: bold;
-  }
+  } */
 
 #root, html, body{
+    font-family: Roboto;
     height:100%;
     width: 100%;
     margin:0px;
