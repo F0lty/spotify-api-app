@@ -202,9 +202,9 @@ app.post('/song_analysis',(req,res)=>{
 app.post('/search',(req,res)=>{
     var access_token = req.body.token;
     var query = req.body.query;
-    var type = 'playlist';
+    var type = 'album,track,artist';
     var options = {
-        url: `https://api.spotify.com/v1/search?q=${query}&type=${type}`,
+        url: `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=6`,
         headers: { 'Authorization': 'Bearer ' + access_token },
         json: true
       };

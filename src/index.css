@@ -26,13 +26,15 @@
     justify-content: center;
 }
 .Wrapper{
-    /* border: 3px solid rgb(202, 202, 202); */
+
     
 background-color: black;
     width: 1000px;
     height: 600px;
-    display: flex; 
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 30px auto;
+    gap:15px;
     padding: 1rem;
     border-radius: 1rem;
     margin: 2rem;
