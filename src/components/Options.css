@@ -1,12 +1,10 @@
-
-
 .LeftBox,.RightBox{
     height: 100%;
     border-radius: 1rem;
     font-size: 16px;
     display: grid;
     grid-template-columns: repeat(2,1fr);
-    grid-template-rows: 30px repeat(5,1fr);
+    grid-template-rows: repeat(5,1fr);
     transition:all 0.5 ease-in-out;
     gap: 15px;
 }
@@ -20,8 +18,9 @@ h2{
     margin:0px;
 }
 .LeftBox{
+    grid-column: 1/2;
+    grid-row: 2/3;
     color: white;
-    width: 63%;
 }
 #loading{
     grid-column: 1/-1;
@@ -29,26 +28,15 @@ h2{
     justify-content: center;
 }
 .RightBox{
-    width: 33%;
+    width: 100%;
+    grid-column: 2/4;
+    grid-row: 1/-1;
     background-color: #1EC14B;
 }
-.Searchbar{
-    height: 100%;
-    transition: height 0.5s ease-in-out;
-    z-index: 1;
-    grid-column: 1/-1;
-    padding-left: 20px;
-    display: flex;
-    justify-content: start;
-    align-items: flex-start;
-    background-color: white;
-    border-radius: 10px;
-    border:solid 3px black;
-}
+
 input{
-    border: none;
-    box-shadow: none;
-    
+    grid-column: 1/2;
+    grid-row:1/2;
 }
 input:focus{
     border: none;
@@ -58,24 +46,27 @@ input:focus{
 }
 .NameAndPic{
     grid-column: 1/-1;
-    grid-row: 2/4;
-    max-height: fit-content;
-    display: grid;
-    gap: 15px;
-    grid-auto-columns: minmax(0,1fr);
+    grid-row: 1/3;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    /* grid-auto-columns: minmax(0,1fr);
     grid-auto-flow: column;
-    grid-auto-rows: minmax(0,1fr);
+    grid-auto-rows: minmax(0,1fr); */
 
 }
 .AlbumCover{
     height: 100%;
-    justify-self: flex-end;
+    max-width: 100%;
+    background-size: cover;
     border-radius: 10px;
 
 }
 .greenBoxesWrapper{
     grid-column: 1/-1;
-    grid-row: 4/5;
+    grid-row: 3/4;
     display: grid;
     gap:15px;
     grid-template-columns: repeat(4,1fr);
@@ -104,16 +95,37 @@ input:focus{
     
     
 }
-.Searchbar:focus-within{
-    transition: height 0.5s ease-in-out;
-    height: 600px;
-    z-index: 1;
+
+
+
+/* ----------------Searchbar----------------------- */
+.searchBox{
+    height: 100%;
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
 }
-
-
-
-
-
+.searchOption{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 30%;
+    background-color: rgb(68, 68, 68);
+}
+.topSearch{
+    width: 50%;
+    height: 100%;
+    background-color: rgb(68, 68, 68);
+    border: solid red 3px;
+}
+.otherSearch{
+    width: 50%;
+    height: 100%;
+    background-color: rgb(68, 68, 68);
+    border: solid rgb(43, 255, 0) 3px;
+}
 
 /* ----------------Transitions--------------------- */
 .my-node-enter {

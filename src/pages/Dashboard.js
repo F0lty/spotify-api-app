@@ -1,21 +1,22 @@
 import '../index.css';
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
-import LeftBox from '../components/LeftBox';
+import SongInfo from '../components/SongInfo';
 import RightBox from '../components/RightBox';
 import {CSSTransition} from 'react-transition-group';
+import SearchBox from '../components/SearchBar';
 
 
 const Dashboard = () => {
 
 
 const loadingRef = useRef(null)
-const [toDisplay,setToDisplay]= useState(false)
 const [token,setToken] = useState(window.localStorage.getItem('token'));
-const [user,setUser] = useState({
-    items:[{id:0}]
-});
+const [typedState,setTypedState] = useState('');
 
+
+const [user,setUser] = useState();
+const [song,setSong] = useState(0);
 
 const getUserData = async ()=>{
     const res = await fetch('http://localhost:8000/me',{
@@ -29,25 +30,26 @@ const data = await res.json();
 return data;
 
 }
-console.log("testing branches");
-console.log("testing branches");
-console.log("testing git");
 useEffect(() => {
     (async()=>{
         const data = await getUserData();
         setUser(await data);
-        setToDisplay(true);
+        setSong(await data.items[0].id);
     })();
-}, [])
-
-console.log(toDisplay);
+},[])
+useEffect((typedState)=>{
+    if(typedState!==''){
+        setTypedState('')
+    }
+},[song])
     return (<>
-            <LeftBox songId = {user.items[0].id}/>
-            <CSSTransition in={toDisplay} timeout={3000} classNames="my-node">
-
+            <input value={typedState} onChange={e=>setTypedState(e.target.value)}/>
+            {typedState!=='' ? 
+            <SearchBox typedState={typedState} setSong={setSong}/> : 
+            <SongInfo songId = {song}/>
+            }
             <RightBox user={user}/>
 
-            </CSSTransition>
             </>
     )
 }
