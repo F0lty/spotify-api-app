@@ -10,12 +10,17 @@ var tracksDiv = <></>;
 
 
 if(props.tracks.total>0){
+
   let remaining = props.tracks.items.splice(0,1);
   tracksDiv = <div className="searchOption">
-  <div className='topSearch'>{props.tracks.total>0 && props.tracks.items[0].name}</div>
+  <div className='topSearch'>
+    <img src={require(props.tracks.items[0].album.images[1].url)}/>
+    {props.tracks.total>0 && props.tracks.items[0].name}
+  </div>
   <div className='otherSearch'><ul>{remaining.map(item=>{return <li>{item.name}</li>})}</ul></div>
 </div>;
 }
+
 if(props.artists.total>0){
 
 }

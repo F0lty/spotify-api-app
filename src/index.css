@@ -27,17 +27,18 @@
 }
 .Wrapper{
 
-    
 background-color: black;
-    width: 1000px;
-    height: 600px;
+    width: 80%;
+    height: 80%;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+
+    grid-template-columns: minmax(0, 3fr) 1fr;
     grid-template-rows: 30px auto;
     gap:15px;
     padding: 1rem;
     border-radius: 1rem;
     margin: 2rem;
-    box-shadow:3px 3px 3px 3px rgb(153, 153, 153);
+    box-shadow:6px 6px 10px -1px rgba(0,0,0,0.15),
+                -6px -6px 10px -1px rgba(255,255,255,0.7);
 
 }

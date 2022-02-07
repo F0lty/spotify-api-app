@@ -2,24 +2,27 @@ import React, {useEffect} from "react";
 import './Options.css';
 import AnalysisComp from "./AnalysisComp";
 import { useState, useRef} from "react/cjs/react.development";
-import SearchBar from "./SearchBar";
 import {CSSTransition} from 'react-transition-group';
-
 
 const songInfoHandler = async (setSongInfo,songId,token,setToDisplay,songRef)=>{
     if(!songId){
         return
     }
-    const res = await fetch('http://localhost:8000/song_analysis',{
-        method: 'POST',
-        headers:{
-            'Content-Type': 'application/json'
-            },
-        body:JSON.stringify({token: token, id:songId})
-    });
-    const data = await res.json();
-    songRef.current = await data;
-    setToDisplay(true);
+    try{
+        const res = await fetch('http://localhost:8000/song_analysis',{
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+                },
+            body:JSON.stringify({token: token, id:songId})
+        });
+        const data = await res.json();
+        songRef.current = await data;
+        setToDisplay(true);
+    }catch(err){
+        alert(err);
+    }
+
 
 }
 
@@ -31,13 +34,12 @@ const SongInfo = ({songId})=>{
     const loadingRef = useRef(null)
     const songRef = useRef(null);
     
-    const [songInfo,setSongInfo] = useState(null);
     const [toDisplay,setToDisplay]= useState(false)
-    const [searching, setSearching] = useState(true);
+
 
 
     useEffect(() => {
-        songInfoHandler(setSongInfo,songId,token,setToDisplay,songRef);
+        songInfoHandler(toDisplay,songId,token,setToDisplay,songRef);
     }, [songId])
 
     console.log(songRef);
@@ -54,11 +56,12 @@ const SongInfo = ({songId})=>{
         <div className="LeftBox" ref={nodeRef}>
         <div className="NameAndPic">
             <div className="Artist"><h1>{songRef.current.generalInfo.name}</h1><h2 style={{marginLeft:'10%'}}>{songRef.current.generalInfo.artists[0].name}</h2></div>
-            <div className="AlbumCover" style={{backgroundImage: `url(${songRef.current.generalInfo.album.images[1].url})`}}></div>
+            {/* <div className="AlbumCover" style={{backgroundImage: `url(${songRef.current.generalInfo.album.images[1].url})`}}></div> */}
+            <img className="AlbumCover" src={songRef.current.generalInfo.album.images[1].url}/>
         </div>
         <div className="greenBoxesWrapper">
-            <div className="GreenBox">Genre: {songRef.current.details.genres[0]}</div>
-            <div className="GreenBox">Release Date: {songRef.current.generalInfo.album.release_date}</div>
+            <div className="GreenBox">{songRef.current.details.genres[0]}</div>
+            <div className="GreenBox">{songRef.current.generalInfo.album.release_date}</div>
         </div>
         <AnalysisComp songAnalysis={songRef.current.analysis} songPopularity={songRef.current.generalInfo.popularity}/>
         
