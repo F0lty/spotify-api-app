@@ -7,14 +7,7 @@ import Dashboard from "./pages/Dashboard";
 
 function RequireAuth({ children }) {
   const { authed, logout } = useAuth();
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
-
   if(authed){
-    // return <div><button onClick={handleLogout}>Logout</button>{children}</div>
     return children;
   }else{
     return <Navigate to="/login" replace />
