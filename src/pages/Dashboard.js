@@ -59,7 +59,7 @@ useEffect((typedState)=>{
     }
 },[song])
     return (<>
-            <input value={typedState} onChange={e=>setTypedState(e.target.value)}/>
+            <input value={typedState} placeholder='Search' onChange={e=>setTypedState(e.target.value)}/>
             {typedState!=='' ? 
             <SearchBox typedState={typedState} setSong={setSong}/> : 
             <SongInfo songId = {song}/>

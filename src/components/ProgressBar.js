@@ -1,13 +1,31 @@
-import React,{useRef} from 'react';
-
+import React,{useEffect, useRef} from 'react';
+import './progressBarStyles.css';
 function ProgressBar({value}) {
     const progressBar = useRef(0);
     const valueContainer = useRef(0);
-
     const dummyValue = 20;
-    const progress = setInterval(()=>{
-        progress.current.textContent(dummyValue+'%');
-    },2000);
+
+    useEffect(()=>{
+        valueContainer.current.textContent=value+'%';
+        progressBar.current.style.background = `conic-gradient(
+        #4d5bf9 0deg,
+        #cadcff 0deg
+    )`;
+        var currentValue = 0
+        const delay = setInterval(()=>{
+            currentValue++;
+            valueContainer.current.textContent=currentValue+'%';
+            progressBar.current.style.background = `conic-gradient(
+            #1ec14b ${currentValue * 3.6}deg,
+            #000000 ${currentValue * 3.6}deg
+        )`;
+        progressBar.current.style.transition= 'all 0.5s ease-in-out';    
+        if (value == currentValue) {
+            clearInterval(delay);
+        }
+        },10);
+        return () => clearInterval(delay);
+    },[]);
   return <div className='container'>
       <div ref={progressBar} className='circular-progress'>
           <div ref={valueContainer} className='value-container'>0%</div>
