@@ -7,63 +7,80 @@ import {CSSTransition} from 'react-transition-group';
 import SearchBox from '../components/SearchBar';
 import useAuth from "../useAuth";
 
+import {getUserData,infoHandler,getSearchData} from '../fetchFunctions.js'
+import ArtistInfo from "../components/ArtistInfo";
+import AlbumInfo from "../components/AlbumInfo";
+
+
 const Dashboard = () => {
 
-const { authed, logout } = useAuth();
+const {logout} = useAuth();
 
-const loadingRef = useRef(null)
 const [token,setToken] = useState(window.localStorage.getItem('token'));
 const [typedState,setTypedState] = useState('');
-
-
 const [user,setUser] = useState();
-const [song,setSong] = useState(0);
+const [IdToDisplay,setIdToDisplay] = useState(0);
+const [fetchedData,setFetchedData] = useState(0);
 
-const getUserData = async ()=>{
-    try{
-        const controller = new AbortController();
-        const signal = controller.signal;
-        const res = await fetch('http://localhost:8000/me',{
-            method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-                },
-            signal:signal,
-            body:JSON.stringify({token:token})
-        });
-    const data = await res.json();
-    if(typeof await data.error !=='undefined'){
-        throw new Error(data.error.message);
-    }
-    return data;
-    }catch(err){
-        alert(err);
-        logout();
-    }
+const [searchFetchedData,setSearchedFetchedData] = useState(null);
+const [searchImages,setSearchImages] = useState([{trackImgs:null},{artistImgs:null},{albumImgs:null}]);
+var typeOfData = useRef('song');
 
 
-}
+//To run only at the beginning (On Mount)
 useEffect(() => {
     (async()=>{
-        const data = await getUserData();
+        const data = await getUserData(logout,token);
         setUser(await data);
-        setSong(await data.items[0].id);
+        setIdToDisplay({song: await data.items[0].id});
     })();
     return () => {
-
     };
 },[])
+
+//To run ONLY when changing the child to display (when change from artist to album/album to track/artist to search etc...)
 useEffect((typedState)=>{
-    if(typedState!==''){
-        setTypedState('')
+    if(typedState!=''){
+        setTypedState('');
     }
-},[song])
+    let keys = Object.keys(IdToDisplay);
+    for(let i = 0;i<=keys.length;i++){
+        if(IdToDisplay[keys[i]]!=null){
+            typeOfData.current = keys[i];
+        }
+    }
+    
+    infoHandler(typeOfData.current,IdToDisplay[typeOfData.current],token,setFetchedData);
+},[IdToDisplay])
+
+//To run ONLY when search is active
+useEffect(()=>{
+    if(typedState!=''){
+        const delayDebounceFn = setTimeout(() => {
+            getSearchData(setSearchedFetchedData,setSearchImages,token,logout,typedState);
+          }, 200)
+        return () => clearTimeout(delayDebounceFn);
+    }
+},[typedState]);
+
+const conditionalRenderFunction = (()=>{
+    if(typedState!=''){
+        return <SearchBox data = {searchFetchedData} searchImages={searchImages} setIdToDisplay={setIdToDisplay}/>
+    }
+    switch(typeOfData.current){
+        case 'song':
+            return <SongInfo data = {fetchedData} setIdToDisplay={setIdToDisplay}/>;
+        case 'artist':
+            return <ArtistInfo data = {fetchedData} setIdToDisplay={setIdToDisplay}/>;
+        case 'album':
+            return <AlbumInfo data = {fetchedData} setIdToDisplay={setIdToDisplay}/>
+    }
+})
+
+
     return (<>
-            <input value={typedState} placeholder='Search' onChange={e=>setTypedState(e.target.value)}/>
-            {typedState!=='' ? 
-            <SearchBox typedState={typedState} setSong={setSong}/> : 
-            <SongInfo songId = {song}/>
-            }
+            <input value={typedState} placeholder='Search' onChange={e=>{setTypedState(e.target.value);}}/>
+            {conditionalRenderFunction(typedState,IdToDisplay)}
             <RightBox user={user}/>
 
             </>

@@ -3,7 +3,6 @@ import './progressBarStyles.css';
 function ProgressBar({value}) {
     const progressBar = useRef(0);
     const valueContainer = useRef(0);
-    const dummyValue = 20;
 
     useEffect(()=>{
         valueContainer.current.textContent=value+'%';
@@ -11,18 +10,19 @@ function ProgressBar({value}) {
         #4d5bf9 0deg,
         #cadcff 0deg
     )`;
-        var currentValue = 0
+        var currentValue = 0;
         const delay = setInterval(()=>{
-            currentValue++;
+
             valueContainer.current.textContent=currentValue+'%';
             progressBar.current.style.background = `conic-gradient(
             #1ec14b ${currentValue * 3.6}deg,
             #000000 ${currentValue * 3.6}deg
         )`;
-        progressBar.current.style.transition= 'all 0.5s ease-in-out';    
+        progressBar.current.style.transition= 'all 0.5s ease-in-out';  
         if (value == currentValue) {
             clearInterval(delay);
         }
+        currentValue++;
         },10);
         return () => clearInterval(delay);
     },[]);
