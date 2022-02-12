@@ -140,7 +140,7 @@ app.post('/top_favourite',(req,res)=>{
         json: true
       };
     request.get(options, function(error, response, body) {
-        
+        if (!error && response.statusCode === 200) {
         var fullBody = body;
         if(searchType != 'tracks'){
             res.json(fullBody);
@@ -160,11 +160,12 @@ app.post('/top_favourite',(req,res)=>{
         });
         }
 
-
+    }
+    res.json({error: 'Access Token Expired'});
     });
 });
 
-app.post('/song_analysis',(req,res)=>{
+app.post('/song',(req,res)=>{
     var access_token = req.body.token;
     var id = req.body.id;
     var fullBody = {};
@@ -196,6 +197,34 @@ app.post('/song_analysis',(req,res)=>{
     });
     
 });
+
+app.post('/album',(req,res)=>{
+    var access_token = req.body.token;
+    var id = req.body.id;
+    var options = {
+        url: `https://api.spotify.com/v1/albums/`+id,
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+      };
+    request.get(options, function(error, response, body) {
+        console.log(response.statusCode);
+        res.json(body);
+    });
+});
+app.post('/artist',(req,res)=>{
+    var access_token = req.body.token;
+    var id = req.body.id;
+    var options = {
+        url: `https://api.spotify.com/v1/artists/`+id,
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        json: true
+      };
+    request.get(options, function(error, response, body) {
+        console.log(response.statusCode);
+        res.json(body);
+    });
+});
+
 
 
 
