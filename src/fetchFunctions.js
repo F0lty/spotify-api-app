@@ -1,5 +1,16 @@
 import artistFiller from './assets/artist-filler.png';
 
+export async function setSong(uri,token){
+    console.log(uri);
+    fetch('http://localhost:8000/player',{
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({token:token,uri:uri})
+    });
+}
+
 export async function getUserData (logout,token){
     try{
         const controller = new AbortController();
@@ -22,7 +33,7 @@ export async function getUserData (logout,token){
     }
 }
 
-export async function infoHandler (key,id,token,setFetchedData){
+export async function infoHandler (key,id,token,setFetchedData,logout){
     if(!id){
         return
     }
@@ -37,10 +48,9 @@ export async function infoHandler (key,id,token,setFetchedData){
         var dataObject = {song:null,artist:null,album:null};
         const data = await res.json();
         dataObject[key]= await data;
-        console.log(await dataObject);
-        setFetchedData(await dataObject);
+        setFetchedData(dataObject);
     }catch(err){
-        console.log(err);
+        logout();
     }
 }
 export async function getSearchData(setSearchedFetchedData,setSearchImages,token,logout,typedState){
@@ -86,7 +96,7 @@ export async function getSearchData(setSearchedFetchedData,setSearchImages,token
     setSearchImages({trackImgs:tracksImgUrls,artistImgs:artistsImgUrls,albumImgs:albumsImgUrls})
     setSearchedFetchedData(await data);
     }catch(err){
-        console.log(err);
+        logout();
     }
     
     

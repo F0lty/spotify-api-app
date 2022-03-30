@@ -73,7 +73,7 @@ app.post('/login', (req,res)=> {
 
 
 app.post('/me',(req,res)=>{
-    
+
     var access_token = req.body.token;
     let optionsForUser = {
         url: 'https://api.spotify.com/v1/me',
@@ -83,87 +83,27 @@ app.post('/me',(req,res)=>{
     request.get(optionsForUser, function(error, response, body) {
         var fullBody = body;
         let optionsForFavourites = {
-            url: 'https://api.spotify.com/v1/me/top/tracks',
+            url: 'https://api.spotify.com/v1/me/top/tracks?limit=10',
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
         request.get(optionsForFavourites, function(error, response, body){
-            fullBody = {...fullBody,...body};
-
-            res.json(fullBody);
+            fullBody = {...fullBody,tracks:{...body}};
+            let optionsForFavourites = {
+                url: 'https://api.spotify.com/v1/me/top/artists?limit=10',
+                headers: { 'Authorization': 'Bearer ' + access_token },
+                json: true
+              };
+              request.get(optionsForFavourites, function(error, response, body){
+                fullBody = {...fullBody,artists:{...body}};
+                console.log(fullBody);
+                res.json(fullBody);
         })
+    })
     
     });
 });
 
-app.post('/top_favourite',(req,res)=>{
-    var access_token = req.body.token;
-    var searchType = req.body.type;
-    var options = {
-        url: 'https://api.spotify.com/v1/me/top/'+searchType,
-        headers: { 'Authorization': 'Bearer ' + access_token },
-        json: true
-      };
-    request.get(options, function(error, response, body) {
-        
-        var fullBody = body;
-        if(searchType != 'tracks'){
-            res.json(fullBody);
-        }else{
-        var id = body.items[0].id;
-        var options = {
-            url: 'https://api.spotify.com/v1/audio-features/'+id,
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-        };
-        request.get(options, function(error, response, body) {
-            
-            fullBody = {...fullBody,...body};
-            res.json(fullBody);
-            
-            
-        });
-        }
-
-
-    });
-});
-
-
-
-app.post('/top_favourite',(req,res)=>{
-    var access_token = req.body.token;
-    var searchType = req.body.type;
-    var options = {
-        url: 'https://api.spotify.com/v1/me/top/'+searchType,
-        headers: { 'Authorization': 'Bearer ' + access_token },
-        json: true
-      };
-    request.get(options, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-        var fullBody = body;
-        if(searchType != 'tracks'){
-            res.json(fullBody);
-        }else{
-        var id = body.items[0].id;
-        var options = {
-            url: 'https://api.spotify.com/v1/audio-features/'+id,
-            headers: { 'Authorization': 'Bearer ' + access_token },
-            json: true
-        };
-        request.get(options, function(error, response, body) {
-            
-            fullBody = {...fullBody,...body};
-            res.json(fullBody);
-            
-            
-        });
-        }
-
-    }
-    res.json({error: 'Access Token Expired'});
-    });
-});
 
 app.post('/song',(req,res)=>{
     var access_token = req.body.token;
@@ -183,7 +123,6 @@ app.post('/song',(req,res)=>{
           };
         request.get(optionsForSong, function(error, response, body) {
             fullBody.generalInfo=body;
-            console.log(body);
             var optionsForDetails = {
                 url: body.artists[0].href,
                 headers: { 'Authorization': 'Bearer ' + access_token },
@@ -207,7 +146,6 @@ app.post('/album',(req,res)=>{
         json: true
       };
     request.get(options, function(error, response, body) {
-        console.log(response.statusCode);
         res.json(body);
     });
 });
@@ -220,7 +158,6 @@ app.post('/artist',(req,res)=>{
         json: true
       };
     request.get(options, function(error, response, body) {
-        console.log(response.statusCode);
         res.json(body);
     });
 });
@@ -238,28 +175,27 @@ app.post('/search',(req,res)=>{
         json: true
       };
     request.get(options, function(error, response, body) {
-        console.log(response.statusCode);
-        console.log(body);
+
         res.json(body);
     });
 });
-
-app.post('/get_top',(req,res)=>{
-    var access_token = req.body.token;
-    var options = {
-        url: 'https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF',
-        headers: { 'Authorization': 'Bearer ' + access_token },
-        json: true
-      };
-    request.get(options, function(error, response, body) {
-        console.log(response.statusCode);
-        console.log(body);
-        res.json(body);
-    });
-});
-
-
 
 app.listen(port,()=>{
     console.log('Listening at localhost:'+port);
+})
+
+app.post('/player',(req,res)=>{
+    var access_token = req.body.token;
+    var uri = req.body.uri;
+    console.log(uri);
+
+    var options = {
+        url: `https://api.spotify.com/v1/me/player/play`,
+        headers: { 'Authorization': 'Bearer ' + access_token },
+        body:{token:access_token,uris:[uri]},
+        json: true
+      };
+      request.put(options, function(error, response, body) {
+        res.json();
+    });
 })
