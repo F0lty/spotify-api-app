@@ -25,7 +25,6 @@ function SpotifyPlayer() {
         script.async = true;
     
         document.body.appendChild(script);
-    
         window.onSpotifyWebPlaybackSDKReady = () => {
     
             const player = new window.Spotify.Player({
@@ -34,7 +33,7 @@ function SpotifyPlayer() {
                 volume: 0.5
             });
     
-            setPlayer(player);
+            
     
             player.addListener('ready', ({ device_id }) => {
                 console.log('Ready with Device ID', device_id);
@@ -48,7 +47,6 @@ function SpotifyPlayer() {
             player.connect();
 
             player.addListener('player_state_changed', ( state => {
-
                 if (!state) {
                     return;
                 }
@@ -62,26 +60,21 @@ function SpotifyPlayer() {
                 });
             
             }));
-    
+            setPlayer(player);
+            console.log(player);
         };
     }, []);
+    useEffect(()=>{
+        console.log('change Happened');
+    },[player])
 
     return (
         <div className='SpotifyPlayer'>
+                    <div className='now-playing__cover' style={{backgroundImage:`url(${current_track.album.images[0].url})`,backgroundSize: 'cover',backgroundBlendMode: 'darken'}}><span>{current_track.name}</span></div>
+                    {/* <img src={current_track.album.images[0].url} 
+                         className="now-playing__cover" alt="" /> */}
 
-                    <img src={current_track.album.images[0].url} 
-                         className="now-playing__cover" alt="" />
-    
-                    <div className="now-playing__side">
-                        <div className="now-playing__name">{
-                                      current_track.name
-                                      }</div>
-    
-                        <div className="now-playing__artist">{
-                                      current_track.artists[0].name
-                                      }</div>
-                
-            </div>
+
          </div>
     )
 }

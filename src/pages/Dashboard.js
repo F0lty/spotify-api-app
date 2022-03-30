@@ -32,7 +32,7 @@ useEffect(() => {
     (async()=>{
         const data = await getUserData(logout,token);
         setUser(await data);
-        setIdToDisplay({song: await data.items[0].id});
+        setIdToDisplay({song: await data.tracks.items[0].id});
     })();
     return () => {
     };
@@ -58,7 +58,7 @@ useEffect(()=>{
     if(typedState!=''){
         const delayDebounceFn = setTimeout(() => {
             getSearchData(setSearchedFetchedData,setSearchImages,token,logout,typedState);
-          }, 200)
+          }, 0)
         return () => clearTimeout(delayDebounceFn);
     }
 },[typedState]);
@@ -81,7 +81,7 @@ const conditionalRenderFunction = (()=>{
     return (<>
             <input value={typedState} placeholder='Search' onChange={e=>{setTypedState(e.target.value);}}/>
             {conditionalRenderFunction(typedState,IdToDisplay)}
-            <RightBox user={user}/>
+            <RightBox userData={user} setIdToDisplay={setIdToDisplay}/>
 
             </>
     )

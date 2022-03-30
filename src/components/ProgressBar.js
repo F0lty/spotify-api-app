@@ -3,7 +3,7 @@ import './progressBarStyles.css';
 function ProgressBar({value}) {
     const progressBar = useRef(0);
     const valueContainer = useRef(0);
-
+    console.log(value);
     useEffect(()=>{
         valueContainer.current.textContent=value+'%';
         progressBar.current.style.background = `conic-gradient(
@@ -25,7 +25,7 @@ function ProgressBar({value}) {
         currentValue++;
         },10);
         return () => clearInterval(delay);
-    },[]);
+    },[value]);
   return <div className='container'>
       <div ref={progressBar} className='circular-progress'>
           <div ref={valueContainer} className='value-container'>0%</div>

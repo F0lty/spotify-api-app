@@ -1,6 +1,6 @@
 .container{
     height: 100%;
-    width: 50%;
+    width:50%;
     background-color: #ffffff;
     border-radius: 8px;
     display: grid;
@@ -27,4 +27,16 @@
     position: relative;
     font-size: 30px;
     color: #231c3d;
+}
+@media(max-width:600px){
+    .container{
+        width: 20%;
+    }
+    .circular-progress{
+        height: 50px;
+        width: 50px;
+    }
+    .value-container{
+        font-size: 16px;
+    }
 }
